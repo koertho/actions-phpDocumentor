@@ -14,7 +14,35 @@ Create `phpdoc.dist.xml` in your root folder and use the step into your Github w
 
 ```yaml
 - name: PhpDocumentor
-  uses: gpupo/actions-phpDocumentor@1.0
+  uses: koertho/actions-phpDocumentor@1
   with:
     dir: './'
+```
+
+Complete example:
+
+```yaml
+name: Documentation
+
+on:
+  workflow_dispatch: ~
+  release:
+    types: [published, created, edited]
+permissions:
+  contents: write
+jobs:
+  PhpDocumentor:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v4
+      - name: PhpDocumentor
+        uses: koertho/actions-phpDocumentor@1
+        with:
+          dir: './'
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: build/api
 ```
